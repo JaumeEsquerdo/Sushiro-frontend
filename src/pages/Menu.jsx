@@ -37,7 +37,7 @@ const Menu = () => {
     const API_PRODUCTOS = import.meta.env.VITE_PRODUCTOS
     const API_COMPRAS = import.meta.env.VITE_COMPRAS
     
-    const backendURL = "https://sushiro-restaurante-carrito-de-comp.vercel.app"; // o http://localhost:3000
+    const backendURL = "https://sushiro-backend.vercel.app"; // o http://localhost:3000
     const { openCart, selectProduct,
         clearSelectedProduct, productoSeleccionado, setProductoSeleccionado } = useUI();
 
