@@ -9,7 +9,7 @@ export const ToastCarrito = ({ message, visible, onClose }) => {
             }, 2500)
             return () => clearTimeout(timer)
         }
-    }, [visible, onClose])
+    }, [visible])
 
     if (!visible) return null
 
