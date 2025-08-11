@@ -36,7 +36,7 @@ const Menu = () => {
     const API_MESAS = import.meta.env.VITE_MESAS
     const API_PRODUCTOS = import.meta.env.VITE_PRODUCTOS
     const API_COMPRAS = import.meta.env.VITE_COMPRAS
-    
+
     const backendURL = "https://sushiro-backend.vercel.app"; // o http://localhost:3000
     const { openCart, selectProduct,
         clearSelectedProduct, productoSeleccionado, setProductoSeleccionado } = useUI();
@@ -293,14 +293,15 @@ const Menu = () => {
                 {cart.length > 0 && (
                     <CartBar openCart={openCart} totalPrecio={totalPrecio} totalPlatos={totalPlatos} />
                 )}
-                {showToastCarrito && (
-                    <ToastCarrito
-                        message={toastCarrito}
-                        visible={showToastCarrito}
-                        onClose={() => setShowToastCarrito(false)}
-                    />
-                )}
             </main>
+            
+            {showToastCarrito && (
+                <ToastCarrito
+                    message={toastCarrito}
+                    visible={showToastCarrito}
+                    onClose={() => setShowToastCarrito(false)}
+                />
+            )}
 
             <CartAside cart={cart} addOneToCart={addOneToCart} removeOneFromCart={removeOneFromCart} removeProductCompletely={removeProductCompletely}
                 pagarCompra={pagarCompra} showToast={showToast} setShowToast={setShowToast}
