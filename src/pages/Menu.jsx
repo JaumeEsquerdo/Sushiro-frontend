@@ -13,6 +13,8 @@ import { LogoutConfirmModal } from '@/components/LogoutConfirmModal';
 import { HistorialModal } from '@/components/HistorialModall';
 import { ToastCarrito } from '@/components/ToastCarrito';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useCallback } from "react"; // para evitar re-renders en funciones inline
+
 
 const Menu = () => {
     const navigate = useNavigate()
@@ -235,6 +237,18 @@ const Menu = () => {
         }
     };
 
+    /* funcion usecallback para cerrar el toast */
+    const handleToastCarritoClose = useCallback(() => {
+        setShowToastCarrito(false);
+    }, []);
+
+    // esto evita re renderizados y petardeos
+    
+    /* usecallback para cerrar el el historial modal  */
+    const handleHistorialClose = useCallback(() => {
+        setModalHistorialAbierto(false);
+    }, []);
+
     return (
         <div className="PageWrap">
             {!isMobile && (
@@ -280,7 +294,7 @@ const Menu = () => {
                 <MesaHeader mesa={mesa} setModalAbierto={setModalAbierto} setModalHistorialAbierto={setModalHistorialAbierto} />
                 <LogoutConfirmModal isOpen={modalAbierto}
                     onCancel={() => setModalAbierto(false)} onConfirm={logout} />
-                <HistorialModal isOpen={modalHistorialAbierto} onClose={() => setModalHistorialAbierto(false)} />
+                <HistorialModal isOpen={modalHistorialAbierto} onClose={handleHistorialClose} />
 
 
                 <MenuFilters filters={filters} setFilters={setFilters} />
@@ -294,12 +308,12 @@ const Menu = () => {
                     <CartBar openCart={openCart} totalPrecio={totalPrecio} totalPlatos={totalPlatos} />
                 )}
             </main>
-            
+
             {showToastCarrito && (
                 <ToastCarrito
                     message={toastCarrito}
                     visible={showToastCarrito}
-                    onClose={() => setShowToastCarrito(false)}
+                    onClose={handleToastCarritoClose}
                 />
             )}
 
