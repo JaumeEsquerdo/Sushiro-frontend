@@ -69,7 +69,7 @@ const Menu = () => {
     useEffect(() => {
         const fetchMesa = async () => {
             try {
-                const res = await fetch(`${API_URL}${API_ROUTER}${API_MESAS}${mesaId}`)
+                const res = await fetch(`${API_URL}${API_ROUTER}${API_MESAS}/${mesaId}`)
                 const responseAPI = await res.json()
                 console.log(responseAPI)
                 setMesa(responseAPI.data)
