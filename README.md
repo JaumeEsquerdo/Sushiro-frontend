@@ -45,7 +45,7 @@ El back expone /compras/sesion/:sesionId para consultar el historial de esa visi
 
 ## Variables de entorno
 
-En el archivo .env.sample se encuentran la estructura de variables de entorno. También puedes encontrar en env.development para ponerlo en local.
+En el archivo `.env.example` se encuentran la estructura de variables de entorno. También puedes encontrar en `.env.development` para ponerlo en local.
 
 ## 🧰 Scripts
 
