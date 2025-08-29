@@ -4,7 +4,7 @@ import { createRoot } from 'react-dom/client'
 import { RouterProvider } from 'react-router'
 import router from '@/lib/routes/router'
 
-import { UIProvider } from './context/UIContext'
+import { UIProvider } from './context/UIContext'/* UIProvider es de mi context global */
 
 /* css */
 import '@/css/index.css'
@@ -21,3 +21,5 @@ createRoot(document.getElementById('root')).render(
     </UIProvider>
   </StrictMode>,
 )
+
+
