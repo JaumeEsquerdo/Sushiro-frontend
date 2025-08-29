@@ -23,7 +23,7 @@ Zona admin:
 /formImage → subir/gestionar imágenes
 
 ## 🧱 Tech stack
-React (Vite) · React Router · Framer Motion · CSS (metodología SUIT CSS)
+React (Vite) · Node.js · React Router · Framer Motion · CSS (metodología SUIT CSS)
 
 ## 🔄 Flujo de cliente (sin login)
 En el selector de mesa:
