@@ -1,41 +1,79 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 const UIContext = createContext();
 
 export const useUI = () => useContext(UIContext);
 
 export const UIProvider = ({ children }) => {
-    const [isCartOpen, setIsCartOpen] = useState(false)
-    const [productoSeleccionado, setProductoSeleccionado] = useState(null);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [productoSeleccionado, setProductoSeleccionado] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [products, setProducts] = useState([]);
 
+  const API_URL = import.meta.env.VITE_API_URL;
+  const API_ROUTER = import.meta.env.VITE_API_ROUTER;
+  const API_PRODUCTOS = import.meta.env.VITE_PRODUCTOS;
 
-    const openCart = () => setIsCartOpen(true);
-    const closeCart = () => setIsCartOpen(false);
-    const toggleCart = () => setIsCartOpen(prev => !prev);
+  const backendURL = "https://sushiro-backend.vercel.app"; // o http://localhost:3000
 
-    // const openProductDetails = () => setIsProductDetailsOpen(true);
-    // const closeProductDetails = () => setIsProductDetailsOpen(false);
-    // const toggleProductDetails = () => setIsProductDetailsOpen(prev => !prev);
+  const openCart = () => setIsCartOpen(true);
+  const closeCart = () => setIsCartOpen(false);
+  const toggleCart = () => setIsCartOpen((prev) => !prev);
 
+  /* obtener todos los productos */
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch(`${API_URL}${API_ROUTER}${API_PRODUCTOS}`);
+        const responseAPI = await response.json();
 
-    const selectProduct = (product) => setProductoSeleccionado(product);
-    const clearSelectedProduct = () => setProductoSeleccionado(null);
-    return (
-        <UIContext.Provider
-            value={{
-                isCartOpen,
-                openCart,
-                closeCart,
-                toggleCart,
-                selectProduct,
-                clearSelectedProduct,
-                productoSeleccionado,
-                setProductoSeleccionado
+        const productos = responseAPI.data;
 
-            }}
-        >
-            {children}
-        </UIContext.Provider>
-    );
-}
+        //preload de imágenes para q carguen al terminar el spinner cuando llegue el fetch de productos
+        await Promise.all(
+          productos.map((prod) => {
+            return new Promise((resolve) => {
+              const img = new Image();
+              img.src = `${backendURL}/uploads/${prod.img}`;
+              img.onload = () => resolve(img);
+              img.onerror = () => resolve(null);
+            });
+          })
+        );
 
+        setProducts(responseAPI.data);
+
+        console.log("productos", responseAPI.data);
+      } catch (e) {
+        console.error("error al obtener productos", e);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProducts();
+  }, []);
+
+  const selectProduct = (product) => setProductoSeleccionado(product);
+  const clearSelectedProduct = () => setProductoSeleccionado(null);
+  return (
+    <UIContext.Provider
+      value={{
+        products,
+        setProducts,
+        loading,
+        setLoading,
+        isCartOpen,
+        openCart,
+        closeCart,
+        toggleCart,
+        selectProduct,
+        clearSelectedProduct,
+        productoSeleccionado,
+        setProductoSeleccionado,
+      }}
+    >
+      {children}
+    </UIContext.Provider>
+  );
+};

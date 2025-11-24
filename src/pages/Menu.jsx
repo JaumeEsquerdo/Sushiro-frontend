@@ -20,25 +20,22 @@ const Menu = () => {
 
   const [mesa, setMesa] = useState(null);
   const [cart, setCart] = useState([]);
-  const [products, setProducts] = useState([]);
   const [filters, setFilters] = useState("todos");
-  // const [productoSeleccionado, setProductoSeleccionado] = useState(null); // expandir producto a la izq
-  // const [isCartOpen, setIsCartOpen] = useState(false);
   const [showToast, setShowToast] = useState(false); // toast de compra
   const [showToastCarrito, setShowToastCarrito] = useState(false); // para el añadir al carrito
   const [toastCarrito, setToastCarrito] = useState(""); // para el toast de añadir a carrito
-  const [loading, setLoading] = useState(true);
   const [modalAbierto, setModalAbierto] = useState(false); // para que se rendereice o no la pregunta de cerrar sesion de la mesa (modal)
   const [modalHistorialAbierto, setModalHistorialAbierto] = useState(false); // modal de historial
 
   const API_URL = import.meta.env.VITE_API_URL;
   const API_ROUTER = import.meta.env.VITE_API_ROUTER;
   const API_MESAS = import.meta.env.VITE_MESAS;
-  const API_PRODUCTOS = import.meta.env.VITE_PRODUCTOS;
   const API_COMPRAS = import.meta.env.VITE_COMPRAS;
 
   const backendURL = "https://sushiro-backend.vercel.app"; // o http://localhost:3000
   const {
+    products,
+    loading,
     openCart,
     clearSelectedProduct,
     productoSeleccionado,
@@ -86,27 +83,6 @@ const Menu = () => {
       fetchMesa();
     }
   }, [mesaId]);
-
-  /* obtener todos los productos */
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch(`${API_URL}${API_ROUTER}${API_PRODUCTOS}`);
-        const responseAPI = await response.json();
-        setTimeout(() => {
-          setProducts(responseAPI.data);
-          setLoading(false);
-        }, 6000);
-        console.log("productos", responseAPI.data);
-      } catch (e) {
-        console.error("error al obtener productos", e);
-      } finally {
-        // setLoading(false);
-      }
-    };
-    fetchProducts();
-  }, []);
 
   /* función para mostrar un toast para el añadir producto */
   const showToastAñadir = (message) => {
