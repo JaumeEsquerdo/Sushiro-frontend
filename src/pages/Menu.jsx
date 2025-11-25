@@ -34,6 +34,7 @@ const Menu = () => {
 
   const backendURL = "https://sushiro-backend.vercel.app"; // o http://localhost:3000
   const {
+    fetchHistorial,
     products,
     loading,
     openCart,
@@ -72,7 +73,7 @@ const Menu = () => {
           `${API_URL}${API_ROUTER}${API_MESAS}/${mesaId}`
         );
         const responseAPI = await res.json();
-        console.log(responseAPI);
+        // console.log(responseAPI);
         setMesa(responseAPI.data);
       } catch (e) {
         console.error("Error al obtener la mesa:", e);
@@ -181,7 +182,7 @@ const Menu = () => {
       // console.log('Compra registrada:', data);
 
       setShowToast(true);
-
+      fetchHistorial();
       setTimeout(() => {
         setShowToast(false);
         setCart([]);

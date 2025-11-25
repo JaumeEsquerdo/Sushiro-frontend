@@ -9,7 +9,10 @@ export const UIProvider = ({ children }) => {
   const [productoSeleccionado, setProductoSeleccionado] = useState(null);
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState([]);
+  const [compras, setCompras] = useState([]);
 
+  const API_COMPRAS = import.meta.env.VITE_COMPRAS;
+  const API_SESION = import.meta.env.VITE_SESION;
   const API_URL = import.meta.env.VITE_API_URL;
   const API_ROUTER = import.meta.env.VITE_API_ROUTER;
   const API_PRODUCTOS = import.meta.env.VITE_PRODUCTOS;
@@ -19,6 +22,19 @@ export const UIProvider = ({ children }) => {
   const openCart = () => setIsCartOpen(true);
   const closeCart = () => setIsCartOpen(false);
   const toggleCart = () => setIsCartOpen((prev) => !prev);
+
+  const fetchHistorial = async () => {
+    try {
+      const sesionId = localStorage.getItem("sesionId");
+      const res = await fetch(
+        `${API_URL}${API_ROUTER}${API_COMPRAS}${API_SESION}/${sesionId}`
+      );
+      const data = await res.json();
+      if (data.status === "ok") setCompras(data.data);
+    } catch (err) {
+      console.error("Error al obtener historial:", err);
+    }
+  };
 
   /* obtener todos los productos */
   useEffect(() => {
@@ -44,7 +60,7 @@ export const UIProvider = ({ children }) => {
 
         setProducts(responseAPI.data);
 
-        console.log("productos", responseAPI.data);
+        // console.log("productos", responseAPI.data);
       } catch (e) {
         console.error("error al obtener productos", e);
       } finally {
@@ -59,6 +75,9 @@ export const UIProvider = ({ children }) => {
   return (
     <UIContext.Provider
       value={{
+        fetchHistorial,
+        compras,
+        setCompras,
         products,
         setProducts,
         loading,

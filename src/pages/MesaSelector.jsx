@@ -31,7 +31,7 @@ const MesaSelector = () => {
         const response = await fetch(`${API_URL}${API_ROUTER}${API_MESAS}`);
         const responseAPI = await response.json();
 
-        console.log("Mesas desde API:", responseAPI.data);
+        // console.log("Mesas desde API:", responseAPI.data);
 
         const mesasLibres = responseAPI.data.filter(
           (mesa) => mesa.estado === "libre"
